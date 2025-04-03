@@ -4,7 +4,7 @@ export default function ListePlats() {
   const [plats, setPlats] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/plats')
+    fetch('http://localhost:5000/api/plats')
       .then((res) => res.json())
       .then((data) => setPlats(data))
       .catch((err) => console.error('Erreur de chargement :', err));

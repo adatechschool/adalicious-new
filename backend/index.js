@@ -1,7 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
-const { getPlat } = require('./get_functions/get_menu');
+const { getPlats } = require('./get_functions/get_menu');
+const {insertCommande} = require('./get_functions/insert_com')
+const {updateStatutCommande} = require('./get_functions/update_statut')
 
 const app = express();
 const port = 3000;
@@ -9,7 +11,10 @@ const port = 3000;
 app.use(cors()); // ← indispensable pour React
 app.use(express.json());
 
-app.get('/plats/:id', getPlat);
+app.get('/plats', getPlats);
+app.post('/commandes', insertCommande);
+app.put('/commandes/statut', updateStatutCommande);
+
 
 app.listen(port, () => {
   console.log(`Serveur démarré sur http://localhost:${port}`);
