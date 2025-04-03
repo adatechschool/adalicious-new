@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './input-name.css';
 
 export default function InputPrenom() {
   const [prenom, setPrenom] = useState('');
@@ -16,7 +17,7 @@ export default function InputPrenom() {
   };
 
   return (
-    <div>
+    <div className="input-container"> 
       <input
         type="text"
         placeholder="Ton prénom"

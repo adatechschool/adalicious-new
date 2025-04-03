@@ -1,27 +1,55 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // <-- Import ajouté
+import './menu.css';
 
-export default function ListePlats() {
-  const [plats, setPlats] = useState([]);
+export default function ChoixMenu() {
+  const [menu, setMenu] = useState([]);
+  const prenom = localStorage.getItem('prenom');
+  const navigate = useNavigate(); // <-- Hook ajouté
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/plats')
-      .then((res) => res.json())
-      .then((data) => setPlats(data))
-      .catch((err) => console.error('Erreur de chargement :', err));
+    fetch('http://localhost:3000/plats')
+      .then(res => res.json())
+      .then(data => {
+        console.log("Plats reçus :", data);
+        setMenu(data);
+      })
+      .catch(err => console.error("Erreur chargement menu :", err));
   }, []);
 
+  const commander = (menu_id) => {
+    fetch('http://localhost:3000/commandes', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        prenom: prenom,
+        menu_id: menu_id
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      alert(data.message);
+      // On stocke l'id de la commande dans le localStorage
+      localStorage.setItem('commande_id', data.commande.id); 
+      navigate('/suivi');
+    })
+    .catch(err => console.error("Erreur commande :", err));
+  };
+  
   return (
-    <div>
-      <h2>Nos plats</h2>
-      <ul>
-        {plats.map((plat) => (
-          <li key={plat.id}>
-            <h3>{plat.plat}</h3>
-            <p>{plat.description}</p>
-            {plat.image && <img src={plat.image} alt={plat.plat} width="100" />}
-          </li>
+    <div className="menu-container">
+      <h2>Bonjour {prenom} 🥦</h2>
+      <h3>Choisis ton plat :</h3>
+      <div className="menu-list">
+        {menu.map((item) => (
+          <div key={item.id} className="menu-item">
+            <div className="emoji">{item.image}</div>
+            <h4>{item.plat}</h4>
+            <p>{item.description}</p>
+            <button onClick={() => commander(item.id)}>Commander</button>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }

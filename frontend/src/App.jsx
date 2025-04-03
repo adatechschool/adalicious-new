@@ -1,27 +1,18 @@
-import { useEffect, useState } from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Accueil from './component/accueil/accueil-new'
+import ChoixMenu from './component/menu/menu';
+import SuiviCommande from './component/suivi/suivi';
 
-export default function ListePlats() {
-  const [plats, setPlats] = useState([]);
 
-  useEffect(() => {
-    fetch('http://localhost:3000/plats')
-      .then((res) => res.json())
-      .then((data) => setPlats(data))
-      .catch((err) => console.error('Erreur de chargement :', err));
-  }, []);
+const router = createBrowserRouter([
+  { path: '/', element: <Accueil /> },
+  { path: '/choix-menu', element: <ChoixMenu /> },
+  { path: '/suivi', element: <SuiviCommande /> },
+]);
 
-  return (
-    <div>
-      <h2>Nos plats</h2>
-      <ul>
-        {plats.map((plat) => (
-          <li key={plat.id}>
-            <h3>{plat.plat}</h3>
-            <p>{plat.description}</p>
-            {plat.image && <img src={plat.image} alt={plat.plat} width="100" />}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+
+function App() {
+  return <RouterProvider router={router} />;
 }
+
+export default App;
