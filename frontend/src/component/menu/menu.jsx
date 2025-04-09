@@ -18,7 +18,7 @@ export default function ChoixMenu() {
   }, []);
 
   const commander = (menu_id) => {
-    fetch('http://localhost:3000/commandes', {
+    fetch(`${import.meta.env.VITE_API_URL}/commandes`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
