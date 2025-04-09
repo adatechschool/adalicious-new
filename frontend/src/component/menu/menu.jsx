@@ -8,7 +8,7 @@ export default function ChoixMenu() {
   const navigate = useNavigate(); // <-- Hook ajouté
 
   useEffect(() => {
-    fetch('http://localhost:3000/plats')
+    fetch(`${import.meta.env.VITE_API_URL}/plats`)
       .then(res => res.json())
       .then(data => {
         console.log("Plats reçus :", data);
