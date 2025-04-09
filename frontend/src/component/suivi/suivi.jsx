@@ -6,7 +6,7 @@ export default function SuiviCommande() {
   const commandeId = localStorage.getItem('commande_id');
 
   useEffect(() => {
-    fetch(`http://localhost:3000/commandes/${commandeId}`)
+    fetch(`${import.meta.env.VITE_API_URL}/commandes/${commandeId}`)
       .then(res => res.json())
       .then(data => setCommande(data))
       .catch(err => console.error('Erreur chargement commande :', err));
